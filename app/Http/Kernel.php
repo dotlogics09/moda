@@ -38,6 +38,14 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
+        'user' => [
+            \App\Http\Middleware\UserMiddleware::class,
+        ],
+
+        'withoutuser' => [
+            \App\Http\Middleware\WithoutUserMiddleware::class,
+        ],
+
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
