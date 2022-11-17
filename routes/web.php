@@ -56,5 +56,9 @@ Route::group(['middleware' => 'withoutuser'], function () {
 Route::group(['middleware' => 'user'], function () {
     Route::get('dashboard', 'DashboardController@index');
     Route::get('logout', 'UserController@logout');
+    
+    // category route start
+    Route::get('add_category', 'CategoryController@index');
+    Route::post('store_category', 'CategoryController@store_category');
 });
 // backend routes end

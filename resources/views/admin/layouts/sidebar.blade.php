@@ -16,12 +16,11 @@
         <li class="">
             <a class="has-arrow" href="#" aria-expanded="false">
                 <img src="{{asset('backend/img/menu-icon/2.svg')}}" alt="">
-                <span>Pages</span>
+                <span>Category</span>
             </a>
             <ul>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="resister.html">Register</a></li>
-                <li><a href="forgot_pass.html">Forgot Password</a></li>
+                <li><a href="{{url('add_category')}}">Add Category</a></li>
+                <li><a href="{{url('category_list')}}">Category List</a></li>
             </ul>
         </li>
         <li class="">
