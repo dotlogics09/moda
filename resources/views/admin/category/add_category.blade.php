@@ -17,6 +17,9 @@
                             <div class="mb-3">
                                 <label class="form-label" for="exampleFormControlInput1">Category Name</label>
                                 <input type="text" class="form-control" name="category_name" id="exampleFormControlInput1" placeholder="Enter the Category Name">
+                                @if ($errors->has('category_name'))
+                                <span class="text-danger errorsignup">{{ $errors->first('category_name') }}</span>
+                                @endif
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -24,6 +27,9 @@
                                 <label class="form-label" for="exampleFormControlInput1">Category Name</label>
                                 <input type="file" class="form-control" name="category_image" id="inputGroupFile02">
                                 <!-- <label class="input-group-text" for="inputGroupFile02">Upload</label> -->
+                                @if ($errors->has('category_image'))
+                                <span class="text-danger errorsignup">{{ $errors->first('category_image') }}</span>
+                                @endif
                             </div>
                         </div>
 
