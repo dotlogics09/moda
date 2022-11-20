@@ -61,5 +61,6 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('category_list', 'CategoryController@category_list');
     Route::get('add_category', 'CategoryController@index');
     Route::post('store_category', 'CategoryController@store_category');
+    Route::post('category/update_status', 'CategoryController@update_status');
 });
 // backend routes end

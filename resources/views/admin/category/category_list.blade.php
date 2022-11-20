@@ -1,0 +1,127 @@
+@extends('admin.layouts.master')
+@section('title', 'Category List')
+@section('content')
+<div class="main_content_iner ">
+    <div class="container-fluid plr_30 body_white_bg pt_30">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="QA_section">
+                    <div class="white_box_tittle list_header">
+                        <h4>Table</h4>
+                        <div class="box_right d-flex lms_block">
+                            <div class="serach_field_2">
+                                <div class="search_inner">
+                                    <form Active="#">
+                                        <div class="search_field">
+                                            <input type="text" placeholder="Search content here...">
+                                        </div>
+                                        <button type="submit"> <i class="ti-search"></i> </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="add_button ms-2">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#addcategory" class="btn_1">Add New</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="message_div"></div>
+                    <div class="QA_table ">
+                        <table class="table lms_table_active">
+                            <thead>
+                                <tr>
+                                    <th scope="col">S.No.</th>
+                                    <th scope="col">Category Name</th>
+                                    <th scope="col">Category Image</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @isset($get_cat_data)
+                                @php
+                                $i = 1;
+                                @endphp
+                                @foreach($get_cat_data as $data)
+                                @php
+                                $status = '';
+                                if ($data) {
+                                if ($data->status == 1) {
+                                $status = "Active";
+                                $class = "btn btn-outline-success";
+                                } else {
+                                $status = "Inactive";
+                                $class = "btn btn-outline-danger";
+                                }
+                                }
+                                @endphp
+                                <tr>
+                                    <th scope="row">{{$i++}}</th>
+                                    <td>{{$data->category_name}}</td>
+                                    <td>
+                                        <img src="{{asset('backend/uploads/category')}}/{{$data->category_image}}" style="height: 59px; width: 80px;" alt="{{$data->category_image}}">
+                                    </td>
+                                    <td>
+                                        <div id="status_button_div">
+                                            <button type="button" id="status_button" class="{{$class}}" onclick="changeStatus({{$data->id}});">{{$status}}</button>
+                                        </div>
+                                        <button class="btn btn-primary" type="button" id="loading_btn" disabled="" style="display: none;">
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            Loading...
+                                        </button>
+                                    </td>
+                                    <td>$25.00</td>
+                                </tr>
+                                @endforeach
+                                @endisset
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function changeStatus(id) {
+        var msgDiv = '';
+        let data = {
+            _token: '{{ csrf_token() }}',
+            _method: 'POST',
+            cat_id: id,
+        }
+
+        document.getElementById("status_button").style.display = "none";
+        document.getElementById("loading_btn").style.display = "block";
+
+        $.ajax({
+            type: "POST",
+            url: "{{ url('category/update_status') }}",
+            data: data,
+            success: function(result) {
+                if (result.status == true) {
+                    msgDiv = '<div class="alert alert-success" role="alert">' + result.message + '</div>';
+                } else {
+                    msgDiv = '<div class="alert alert-danger" role="alert">' + result.message + '</div>';
+                }
+
+                if (result.status_text == "Active") {
+                    var btn_class = "btn btn-outline-success";
+                } else {
+                    var btn_class = "btn btn-outline-danger";
+                }
+
+                new_status_btn = '<button type="button" id="status_button" class="' + btn_class + '" onclick="changeStatus(' + id + ');">' + result.status_text + '</button>';
+
+                document.getElementById("message_div").innerHTML = msgDiv;
+                document.getElementById("status_button_div").innerHTML = new_status_btn;
+                document.getElementById("loading_btn").style.display = "none";
+
+                setTimeout(function() {
+                    $('.alert').fadeOut('slow');
+                }, 1500);
+            }
+        });
+    }
+</script>
+@endsection

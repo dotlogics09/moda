@@ -14,7 +14,6 @@ class CategoryController extends Controller
 
     function store_category(Request $request)
     {
-        // return $request;die;
         $request->validate([
             'category_name' => 'required',
             'category_image' => 'required',
@@ -35,10 +34,28 @@ class CategoryController extends Controller
 
     function category_list()
     {
-        echo "hello";
-        die;
         $get_cat_data = Category::all();
+        
+        return view('admin.category.category_list', compact('get_cat_data'));
+    }
 
-        return view('');
+    function update_status(Request $request)
+    {
+        $update_status = Category::find($request->cat_id);
+        if($update_status->status == 1){
+            $status = 0;
+            $status_text = "Inactive";
+        }else{
+            $status = 1;
+            $status_text = "Active";
+        }
+        $update_status->status = $status;
+        $update_status->save();
+
+        if($update_status){
+            return response()->json(["status" => true, 'message' => 'Status Updated Successfully', 'status_text' => $status_text], 200);
+        }else{
+            return response()->json(["status" => false, 'message' => 'Something went Wrong', 'status_text' => ''], 500);
+        }
     }
 }
