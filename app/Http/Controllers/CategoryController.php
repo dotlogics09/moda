@@ -41,6 +41,7 @@ class CategoryController extends Controller
 
     function update_status(Request $request)
     {
+        // return $request;die;
         $update_status = Category::find($request->cat_id);
         if($update_status->status == 1){
             $status = 0;
@@ -56,6 +57,19 @@ class CategoryController extends Controller
             return response()->json(["status" => true, 'message' => 'Status Updated Successfully', 'status_text' => $status_text], 200);
         }else{
             return response()->json(["status" => false, 'message' => 'Something went Wrong', 'status_text' => ''], 500);
+        }
+    }
+
+    function delete_category(Request $request)
+    {
+        // return $request->category_id;
+        $delete_category = Category::find($request->category_id);
+        $delete_category->delete();
+        
+        if($delete_category){
+            return response()->json(["status" => true, 'message' => "Record Deleted Successfully"]);
+        }else{
+            return response()->json(["status" => false, 'message' => "Something went Wrong"]);
         }
     }
 }
