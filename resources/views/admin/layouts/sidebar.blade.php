@@ -19,8 +19,8 @@
                 <span>Category</span>
             </a>
             <ul>
-                <li><a href="{{url('add_category')}}">Add Category</a></li>
-                <li><a href="{{url('category_list')}}">Category List</a></li>
+                <li><a href="{{url('category/add_category')}}">Add Category</a></li>
+                <li><a href="{{url('category/category_list')}}">Category List</a></li>
             </ul>
         </li>
         <li class="">

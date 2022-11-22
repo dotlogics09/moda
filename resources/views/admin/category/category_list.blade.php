@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                             <div class="add_button ms-2">
-                                <a href="{{url('add_category')}}" class="btn_1">Add New</a>
+                                <a href="{{url('category/add_category')}}" class="btn_1">Add New</a>
                             </div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                                         </button>
                                     </td>
                                     <td>
-                                        <i class="ti-pencil edit_icon"></i>
+                                        <a href="{{url('category/edit_category')}}/{{$data->id}}"><i class="ti-pencil edit_icon"></i></a>
                                         &nbsp;&nbsp;&nbsp;
                                         <i class="ti-trash edit_icon" onclick="delete_cat({{$data->id}})"></i>
                                         <div class="spinner-border spinner-border-sm" id="delete_loading_{{$data->id}}" style="display: none;" role="status">

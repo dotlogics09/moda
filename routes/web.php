@@ -58,10 +58,12 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('logout', 'UserController@logout');
     
     // category route start
-    Route::get('category_list', 'CategoryController@category_list');
-    Route::get('add_category', 'CategoryController@index');
-    Route::post('store_category', 'CategoryController@store_category');
+    Route::get('category/category_list', 'CategoryController@category_list');
+    Route::get('category/add_category', 'CategoryController@index');
+    Route::post('category/store_category', 'CategoryController@store_category');
     Route::post('category/update_status', 'CategoryController@update_status');
     Route::post('category/delete_category', 'CategoryController@delete_category');
+    Route::get('category/edit_category/{id}', 'CategoryController@edit');
+    Route::post('category/update_category/{id}', 'CategoryController@update_category');
 });
 // backend routes end

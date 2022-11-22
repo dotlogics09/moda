@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', 'Add Category')
+@section('title', 'Edit Category')
 @section('content')
 <div class="main_content_iner ">
     <div class="container-fluid plr_30 body_white_bg pt_30">
@@ -8,15 +8,15 @@
                 <div class="white_box mb_30">
                     <div class="box_header ">
                         <div class="main-title">
-                            <h3 class="mb-0">Add Category</h3>
+                            <h3 class="mb-0">Edit Category</h3>
                         </div>
                     </div>
-                    <form action="{{url('category/store_category')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{url('category/update_category')}}/{{$edit_data->id}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="exampleFormControlInput1">Category Name</label>
-                                <input type="text" class="form-control" name="category_name" id="exampleFormControlInput1" placeholder="Enter the Category Name">
+                                <input type="text" class="form-control" name="category_name" value="{{$edit_data->category_name}}" placeholder="Enter the Category Name">
                                 @if ($errors->has('category_name'))
                                 <span class="text-danger errorsignup">{{ $errors->first('category_name') }}</span>
                                 @endif
@@ -25,7 +25,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="exampleFormControlInput1">Category Name</label>
-                                <input type="file" class="form-control" name="category_image" id="inputGroupFile02">
+                                <input type="file" class="form-control" name="category_image" value="{{$edit_data->category_image}}">
                                 <!-- <label class="input-group-text" for="inputGroupFile02">Upload</label> -->
                                 @if ($errors->has('category_image'))
                                 <span class="text-danger errorsignup">{{ $errors->first('category_image') }}</span>
@@ -33,7 +33,7 @@
                             </div>
                         </div>
 
-                        <input class="btn btn-primary" type="submit" value="Submit">
+                        <input class="btn btn-primary" type="submit" value="Update">
                     </form>
                 </div>
             </div>

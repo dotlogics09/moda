@@ -29,7 +29,7 @@ class CategoryController extends Controller
         $store_cat->status = 1;
         $store_cat->save();
 
-        return redirect('category_list');
+        return redirect('category/category_list');
     }
 
     function category_list()
@@ -71,5 +71,17 @@ class CategoryController extends Controller
         }else{
             return response()->json(["status" => false, 'message' => "Something went Wrong"]);
         }
+    }
+
+    function edit($id)
+    {
+        $edit_data = Category::find($id);
+
+        return view('admin.category.edit_category', compact('edit_data'));
+    }
+
+    function update_category(Request $request)
+    {
+        return $request;
     }
 }
