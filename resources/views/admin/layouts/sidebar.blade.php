@@ -25,6 +25,16 @@
         </li>
         <li class="">
             <a class="has-arrow" href="#" aria-expanded="false">
+                <img src="{{asset('backend/img/menu-icon/2.svg')}}" alt="">
+                <span>Sub Category</span>
+            </a>
+            <ul>
+                <li><a href="{{url('subcategory/add_subcategory')}}">Add Sub Category</a></li>
+                <li><a href="{{url('subcategory/subcategory_list')}}">Sub Category List</a></li>
+            </ul>
+        </li>
+        <li class="">
+            <a class="has-arrow" href="#" aria-expanded="false">
                 <img src="{{asset('backend/img/menu-icon/3.svg')}}" alt="">
                 <span>Applications</span>
             </a>

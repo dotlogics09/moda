@@ -82,6 +82,7 @@ class CategoryController extends Controller
 
     function update_category(Request $request)
     {
-        return $request;
+        echo "<pre>";
+        print_r($request->category_image);
     }
 }

@@ -65,5 +65,9 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('category/delete_category', 'CategoryController@delete_category');
     Route::get('category/edit_category/{id}', 'CategoryController@edit');
     Route::post('category/update_category/{id}', 'CategoryController@update_category');
+
+    // subcategory route start
+    Route::get('subcategory/add_subcategory', 'SubcategoryController@index');
+    Route::get('subcategory/subcategory_list', 'SubcategoryController@subcategory_list');
 });
 // backend routes end
