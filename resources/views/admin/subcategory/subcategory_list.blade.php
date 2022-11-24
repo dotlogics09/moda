@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                             <div class="add_button ms-2">
-                                <a href="{{url('category/add_category')}}" class="btn_1">Add New</a>
+                                <a href="{{url('subcategory/add_subcategory')}}" class="btn_1">Add New</a>
                             </div>
                         </div>
                     </div>
@@ -39,6 +39,7 @@
                                 <tr>
                                     <th scope="col">S.No.</th>
                                     <th scope="col">Category Name</th>
+                                    <th scope="col">SubCategory Name</th>
                                     <th scope="col">Category Image</th>
                                     <th scope="col">Status</th>
                                     <th scope="col" colspan="2">Action</th>
@@ -62,26 +63,27 @@
                                 }
                                 }
                                 @endphp
-                                <tr id="category_row_{{$data->id}}">
+                                <tr id="subcategory_row_{{$data->subcat_id}}">
                                     <th scope="row">{{$i++}}</th>
                                     <td>{{$data->category_name}}</td>
+                                    <td>{{$data->subcategory_name}}</td>
                                     <td>
-                                        <img src="{{asset('backend/uploads/category')}}/{{$data->category_image}}" style="height: 59px; width: 80px;" alt="{{$data->category_image}}">
+                                        <img src="{{asset('backend/uploads/subcategory')}}/{{$data->subcategory_image}}" style="height: 59px; width: 80px;" alt="{{$data->subcategory_image}}">
                                     </td>
                                     <td>
-                                        <div id="status_button_div_{{$data->id}}">
-                                            <button type="button" id="status_button_{{$data->id}}" class="{{$class}}" onclick="changeStatus({{$data->id}});">{{$status}}</button>
+                                        <div id="status_button_div_{{$data->subcat_id}}">
+                                            <button type="button" id="status_button_{{$data->subcat_id}}" class="{{$class}}" onclick="changeStatus({{$data->subcat_id}});">{{$status}}</button>
                                         </div>
-                                        <button class="btn btn-primary" type="button" id="loading_btn_{{$data->id}}" disabled="" style="display: none;">
+                                        <button class="btn btn-primary" type="button" id="loading_btn_{{$data->subcat_id}}" disabled="" style="display: none;">
                                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                             Loading...
                                         </button>
                                     </td>
                                     <td>
-                                        <a href="{{url('category/edit_category')}}/{{$data->id}}"><i class="ti-pencil edit_icon"></i></a>
+                                        <a href="{{url('subcategory/edit_subcategory')}}/{{$data->subcat_id}}"><i class="ti-pencil edit_icon"></i></a>
                                         &nbsp;&nbsp;&nbsp;
-                                        <i class="ti-trash edit_icon" onclick="delete_cat({{$data->id}})"></i>
-                                        <div class="spinner-border spinner-border-sm" id="delete_loading_{{$data->id}}" style="display: none;" role="status">
+                                        <i class="ti-trash edit_icon" onclick="delete_subcat({{$data->subcat_id}})"></i>
+                                        <div class="spinner-border spinner-border-sm" id="delete_loading_{{$data->subcat_id}}" style="display: none;" role="status">
                                             <span class="visually-hidden">Loading...</span>
                                         </div>
                                     </td>
@@ -106,7 +108,7 @@
         let data = {
             _token: '{{ csrf_token() }}',
             _method: 'POST',
-            cat_id: id,
+            subcat_id: id,
         }
 
         document.getElementById(status_button).style.display = "none";
@@ -114,7 +116,7 @@
 
         $.ajax({
             type: "POST",
-            url: "{{ url('category/update_status') }}",
+            url: "{{ url('subcategory/update_status') }}",
             data: data,
             success: function(result) {
                 if (result.status == true) {
@@ -142,20 +144,20 @@
         });
     }
 
-    function delete_cat(id) {
+    function delete_subcat(id) {
         var delete_loading = "delete_loading_" + id;
-        var category_row = "category_row_"+id;
+        var subcategory_row = "subcategory_row_"+id;
         document.getElementById(delete_loading).style.display = "block";
 
         let data = {
             _token: '{{ csrf_token() }}',
             _method: 'POST',
-            category_id: id,
+            subcategory_id: id,
         }
 
         $.ajax({
             type: "POST",
-            url: "{{ url('category/delete_category') }}",
+            url: "{{ url('subcategory/delete_subcategory') }}",
             data: data,
             success: function(result) {
                 console.log(result);
@@ -167,7 +169,7 @@
 
                 document.getElementById(delete_loading).style.display = "none";
                 document.getElementById("message_div").innerHTML = msgDiv;
-                document.getElementById(category_row).remove();
+                document.getElementById(subcategory_row).remove();
                 
                 setTimeout(function() {
                     $('.alert').fadeOut('slow');
