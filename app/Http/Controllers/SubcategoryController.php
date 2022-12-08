@@ -84,9 +84,27 @@ class SubcategoryController extends Controller
         return view('admin.subcategory.edit_subcategory', compact('edit_data', 'category'));
     }
 
-    function update_subcategory(Request $request)
+    function update_subcategory(Request $request, $id)
     {
-        echo "<pre>";
-        print_r($request->all());
+        dd($request->all());
+        die;
+        $request->validate([
+            'category' => 'required',
+            'subcategory_name' => 'required',
+            'subcategory_image' => 'required',
+        ]);
+
+        $store_subcat = Subcategory::find($id);
+        $store_subcat->category_id = $request->category;
+        $store_subcat->subcategory_name = $request->subcategory_name;
+        if ($request->subcategory_image) {
+            $imageName = time() . '.' . $request->subcategory_image->extension();
+            $request->subcategory_image->move(public_path('backend/uploads/subcategory'), $imageName);
+            $store_subcat->subcategory_image = $imageName;
+        }
+        $store_subcat->status = 1;
+        $store_subcat->update();
+
+        return redirect('subcategory/subcategory_list');
     }
 }

@@ -78,9 +78,23 @@ class CategoryController extends Controller
         return view('admin.category.edit_category', compact('edit_data'));
     }
 
-    function update_category(Request $request)
+    function update_category(Request $request, $id)
     {
-        echo "<pre>";
-        print_r($request->category_image);
+        $request->validate([
+            'category_name' => 'required',
+            'category_image' => 'required',
+        ]);
+
+        $store_cat = Category::find($id);
+        $store_cat->category_name = $request->category_name;
+        if ($request->category_image) {
+            $imageName = time() . '.' . $request->category_image->extension();
+            $request->category_image->move(public_path('backend/uploads/category'), $imageName);
+            $store_cat->category_image = $imageName;
+        }
+        $store_cat->status = 1;
+        $store_cat->update();
+        
+        return redirect('category/category_list');
     }
 }

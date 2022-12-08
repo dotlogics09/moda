@@ -40,10 +40,15 @@
                 </div>
                 <div class="col-lg-6 col-md-5">
                     <div class="header__top__right">
+                        @if(session('id'))
                         <div class="header__top__links">
-                        <a href="{{url('login')}}">Sign in</a>
-                        <!-- <a href="#">FAQs</a> -->
+                            <a href="{{url('dashboard')}}">Welcome {{session('name')}}</a>
                         </div>
+                        @else
+                        <div class="header__top__links">
+                            <a href="{{url('login')}}">Sign in</a>
+                        </div>
+                        @endif
                         <!-- <div class="header__top__hover">
                             <span>Usd <i class="arrow_carrot-down"></i></span>
                             <ul>
@@ -67,9 +72,9 @@
             <div class="col-lg-6 col-md-6">
                 <nav class="header__menu mobile-menu">
                     <ul>
-                        <li class="active"><a href="{{url('/')}}">Home</a></li>
-                        <li><a href="{{url('shop')}}">Shop</a></li>
-                        <li><a href="#">Pages</a>
+                        <li class="{{request()->is('/') ? 'active' : ''}}"><a href="{{url('/')}}">Home</a></li>
+                        <li class="{{request()->is('shop') ? 'active' : ''}}"><a href="{{url('shop')}}">Shop</a></li>
+                        <!-- <li><a href="#">Pages</a>
                             <ul class="dropdown">
                                 <li><a href="{{url('about')}}">About Us</a></li>
                                 <li><a href="{{url('shop-details')}}">Shop Details</a></li>
@@ -77,9 +82,9 @@
                                 <li><a href="{{url('checkout')}}">Check Out</a></li>
                                 <li><a href="{{url('blog-details')}}">Blog Details</a></li>
                             </ul>
-                        </li>
-                        <li><a href="{{url('blog')}}">Blog</a></li>
-                        <li><a href="{{url('contact')}}">Contacts</a></li>
+                        </li> -->
+                        <li class="{{request()->is('blog') ? 'active' : ''}}"><a href="{{url('blog')}}" >Blog</a></li>
+                        <li class="{{request()->is('contact') ? 'active' : ''}}"><a href="{{url('contact')}}">Contacts</a></li>
                     </ul>
                 </nav>
             </div>
@@ -87,8 +92,10 @@
                 <div class="header__nav__option">
                     <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
                     <a href="#"><img src="img/icon/heart.png" alt=""></a>
+                    <span class="{{request()->is('shopping-cart') ? 'cart-active-class' : ''}}" >
                     <a href="{{url('shopping-cart')}}"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
                     <div class="price">$0.00</div>
+                    </span>
                 </div>
             </div>
         </div>

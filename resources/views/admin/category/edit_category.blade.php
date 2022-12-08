@@ -25,6 +25,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label" for="exampleFormControlInput1">Category Name</label>
+                                <input type="hidden" name="update_test" value="{{$edit_data->category_image}}">
                                 <input type="file" class="form-control" name="category_image" value="{{$edit_data->category_image}}" id="inputGroupFile02">
                                 <!-- <label class="input-group-text" for="inputGroupFile02">Upload</label> -->
                                 @if ($errors->has('category_image'))
