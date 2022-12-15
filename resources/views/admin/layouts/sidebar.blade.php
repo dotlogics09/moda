@@ -8,12 +8,12 @@
     <ul id="sidebar_menu">
         <!-- <li class="mm-active"> -->
         <li>
-            <a class="has-arrow" href="{{url('dashboard')}}" aria-expanded="false">
+            <a href="{{url('dashboard')}}" aria-expanded="false">
                 <img src="{{asset('backend/img/menu-icon/1.svg')}}" alt="">
                 <span>Dashboard</span>
             </a>
         </li>
-        <li class="">
+        <li class="{{request()->is('category/*') ? 'mm-active' : ''}}">
             <a class="has-arrow" href="#" aria-expanded="false">
                 <img src="{{asset('backend/img/menu-icon/2.svg')}}" alt="">
                 <span>Category</span>
@@ -23,7 +23,7 @@
                 <li><a href="{{url('category/category_list')}}">Category List</a></li>
             </ul>
         </li>
-        <li class="">
+        <li class="{{request()->is('subcategory/*') ? 'mm-active' : ''}}">
             <a class="has-arrow" href="#" aria-expanded="false">
                 <img src="{{asset('backend/img/menu-icon/2.svg')}}" alt="">
                 <span>Sub Category</span>
@@ -39,8 +39,8 @@
                 <span>Products</span>
             </a>
             <ul>
-                <li><a href="{{url('subcategory/add_subcategory')}}">Add Products</a></li>
-                <li><a href="{{url('subcategory/subcategory_list')}}">Product List</a></li>
+                <li><a href="{{url('product/add_product')}}">Add Products</a></li>
+                <li><a href="{{url('product/product_list')}}">Product List</a></li>
             </ul>
         </li>
         <li class="">

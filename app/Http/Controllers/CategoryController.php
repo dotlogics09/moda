@@ -74,7 +74,6 @@ class CategoryController extends Controller
     function edit($id)
     {
         $edit_data = Category::find($id);
-
         return view('admin.category.edit_category', compact('edit_data'));
     }
 
@@ -82,7 +81,6 @@ class CategoryController extends Controller
     {
         $request->validate([
             'category_name' => 'required',
-            'category_image' => 'required',
         ]);
 
         $store_cat = Category::find($id);

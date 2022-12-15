@@ -86,12 +86,9 @@ class SubcategoryController extends Controller
 
     function update_subcategory(Request $request, $id)
     {
-        dd($request->all());
-        die;
         $request->validate([
             'category' => 'required',
             'subcategory_name' => 'required',
-            'subcategory_image' => 'required',
         ]);
 
         $store_subcat = Subcategory::find($id);

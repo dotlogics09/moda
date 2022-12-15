@@ -78,5 +78,6 @@ Route::group(['middleware' => 'user'], function () {
     // product route start
     Route::get('product/add_product', 'ProductController@add_product_view');
     Route::get('product/product_list', 'ProductController@index');
+    Route::post('product/get_subcategory', 'ProductController@get_subcat');
 });
 // backend routes end
