@@ -11,7 +11,7 @@
                             <h3 class="mb-0">Add Product</h3>
                         </div>
                     </div>
-                    <form action="{{url('')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{url('product/store_product')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="col-md-6">
                             <div class="mb-3">
@@ -72,6 +72,20 @@
 
                         <div class="col-md-6">
                             <div class="mb-3">
+                                <label class="form-label" for="exampleFormControlInput1">Discount Type</label>
+                                <select class="form-select" name="discount_type">
+                                    <option value="" style="display: none;">Select Discount Type</option>
+                                    <option value="percentage">Percentage</option>
+                                    <option value="amount">Amount</option>
+                                </select>
+                                @if ($errors->has('discount_type'))
+                                <span class="text-danger errorsignup">{{ $errors->first('discount_type') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
                                 <label class="form-label" for="exampleFormControlInput1">Product Image</label>
                                 <input type="file" class="form-control" name="product_image" id="inputGroupFile02">
                                 <!-- <label class="input-group-text" for="inputGroupFile02">Upload</label> -->
@@ -120,7 +134,7 @@
                 if(result.status){
                     document.getElementById("subcategory-drop").innerHTML = result.data;
                 }else{
-                    drop = '<option>'+ result.msg +'</option>';
+                    drop = '<option value="0">'+ result.msg +'</option>';
                     document.getElementById("subcategory-drop").innerHTML = drop;
                 }
             }
