@@ -81,5 +81,8 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('product/get_subcategory', 'ProductController@get_subcat');
     Route::post('product/store_product', 'ProductController@store_product');
     Route::post('product/update_status', 'ProductController@update_status');
+    Route::get('product/edit_product/{id}', 'ProductController@edit');
+    Route::post('product/update_product/{id}', 'ProductController@update_product');
+    Route::post('product/delete_product', 'ProductController@delete_product');
 });
 // backend routes end

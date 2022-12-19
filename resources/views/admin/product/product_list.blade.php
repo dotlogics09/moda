@@ -79,7 +79,7 @@
                                     <td>{{$data->subcategory_name}}</td>
                                     <td>{{$data->price}}</td>
                                     <td>{{$data->net_price}}</td>
-                                    <td>{{$data->dicount}}{{$discount_type}}</td>
+                                    <td>{{$data->discount}}{{$discount_type}}</td>
                                     <td>
                                         <img src="{{asset('backend/uploads/products')}}/{{$data->product_image}}" style="height: 59px; width: 80px;" alt="{{$data->product_image}}">
                                     </td>
@@ -94,9 +94,9 @@
                                         </button>
                                     </td>
                                     <td>
-                                        <a href="{{url('subcategory/edit_subcategory')}}/{{$data->product_id}}"><i class="ti-pencil edit_icon"></i></a>
+                                        <a href="{{url('product/edit_product')}}/{{$data->product_id}}"><i class="ti-pencil edit_icon"></i></a>
                                         &nbsp;&nbsp;&nbsp;
-                                        <i class="ti-trash edit_icon" onclick="delete_subcat({{$data->product_id}})"></i>
+                                        <i class="ti-trash edit_icon" onclick="delete_product({{$data->product_id}})"></i>
                                         <div class="spinner-border spinner-border-sm" id="delete_loading_{{$data->product_id}}" style="display: none;" role="status">
                                             <span class="visually-hidden">Loading...</span>
                                         </div>
@@ -158,7 +158,7 @@
         });
     }
 
-    function delete_subcat(id) {
+    function delete_product(id) {
         var delete_loading = "delete_loading_" + id;
         var subcategory_row = "product_row_"+id;
         document.getElementById(delete_loading).style.display = "block";
@@ -166,15 +166,14 @@
         let data = {
             _token: '{{ csrf_token() }}',
             _method: 'POST',
-            subcategory_id: id,
+            product_id: id,
         }
 
         $.ajax({
             type: "POST",
-            url: "{{ url('subcategory/delete_subcategory') }}",
+            url: "{{ url('product/delete_product') }}",
             data: data,
             success: function(result) {
-                console.log(result);
                 if (result.status == true) {
                     msgDiv = '<div class="alert alert-success" role="alert">' + result.message + '</div>';
                 } else {
