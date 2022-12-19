@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 17, 2022 at 06:43 PM
+-- Generation Time: Dec 19, 2022 at 06:36 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -49,6 +49,29 @@ INSERT INTO `category` (`id`, `category_name`, `category_image`, `status`, `crea
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `coupons`
+--
+
+CREATE TABLE `coupons` (
+  `id` int(11) NOT NULL,
+  `coupon_title` varchar(255) NOT NULL,
+  `coupon_code` varchar(155) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `use_limit` int(5) NOT NULL,
+  `discount_type` enum('percentage','amount') NOT NULL,
+  `amount_percentage` decimal(10,2) NOT NULL,
+  `minimum_purc_amt` decimal(10,2) NOT NULL,
+  `days` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `status` enum('active','inactive','expired') NOT NULL DEFAULT 'inactive',
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `products`
 --
 
@@ -75,7 +98,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `product_name`, `category_id`, `subcategory_id`, `price`, `net_price`, `discounted_price`, `discount`, `discount_type`, `product_image`, `product_description`, `status`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 'rtyui', 8, 4, '400.00', '312.00', '88.00', '22', 'percentage', '1671295906.jpg', 'dfghjkl', 1, 1, '2022-12-17 16:51:46', '2022-12-17 17:28:46');
+(1, 'Roadster Slim Fit Jeans', 8, 4, '349.00', '317.59', '31.41', '9', 'percentage', '1671295906.jpg', 'Roadster Jeans', 1, 1, '2022-12-17 16:51:46', '2022-12-19 14:38:34'),
+(2, 'Bikerz Hoodie', 7, 5, '1000.00', '800.00', '800.00', '200', 'amount', '1671460907.jpg', 'Bikerz Hoodie', 1, 1, '2022-12-19 14:41:47', '2022-12-19 14:47:43');
 
 -- --------------------------------------------------------
 
@@ -98,7 +122,8 @@ CREATE TABLE `subcategory` (
 --
 
 INSERT INTO `subcategory` (`id`, `category_id`, `subcategory_name`, `subcategory_image`, `status`, `created_at`, `updated_at`) VALUES
-(4, 8, 'Damaged Jeans', '1671122466.jpg', 1, '2022-11-24 15:04:18', '2022-12-15 16:41:24');
+(4, 8, 'Damaged Jeans', '1671122466.jpg', 1, '2022-11-24 15:04:18', '2022-12-15 16:41:24'),
+(5, 7, 'Hoodie', '1671460813.jpg', 1, '2022-12-19 14:40:13', '2022-12-19 14:40:13');
 
 -- --------------------------------------------------------
 
@@ -135,6 +160,12 @@ ALTER TABLE `category`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `coupons`
+--
+ALTER TABLE `coupons`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
@@ -163,16 +194,22 @@ ALTER TABLE `category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
+-- AUTO_INCREMENT for table `coupons`
+--
+ALTER TABLE `coupons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `subcategory`
 --
 ALTER TABLE `subcategory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
