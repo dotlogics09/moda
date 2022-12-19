@@ -84,5 +84,8 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('product/edit_product/{id}', 'ProductController@edit');
     Route::post('product/update_product/{id}', 'ProductController@update_product');
     Route::post('product/delete_product', 'ProductController@delete_product');
+
+    // coupon route start
+    Route::get('coupon/coupon_list', 'CouponController@index');
 });
 // backend routes end
