@@ -34,29 +34,37 @@
                         </div>
                     </div>
                     <div class="QA_table ">
-                        <table class="table lms_table_active">
+                        <table class="table lms_table_active mb-10">
                             <thead>
                                 <tr>
                                     <th scope="col">S.No.</th>
-                                    <th scope="col">Category Name</th>
-                                    <th scope="col">Category Image</th>
+                                    <th scope="col">Coupon Title</th>
+                                    <th scope="col">Coupon Code</th>
+                                    <th scope="col">Start On</th>
+                                    <th scope="col">Expire On</th>
+                                    <th scope="col">Amount or Percentage</th>
+                                    <th scope="col">Current Status</th>
                                     <th scope="col">Status</th>
                                     <th scope="col" colspan="2">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @isset($get_cat_data)
+                                @isset($coupons)
                                 @php
                                 $i = 1;
                                 @endphp
-                                @foreach($get_cat_data as $data)
+                                @foreach($coupons as $data)
                                 @php
                                 $status = '';
                                 if ($data) {
-                                if ($data->status == 1) {
+                                if ($data->status == 'active') {
                                 $status = "Active";
                                 $class = "btn btn-outline-success";
-                                } else {
+                                } elseif($data->status == 'expired'){
+                                $status = "Expired";
+                                $class = "btn btn-outline-danger";
+                                }
+                                else {
                                 $status = "Inactive";
                                 $class = "btn btn-outline-danger";
                                 }
@@ -64,13 +72,24 @@
                                 @endphp
                                 <tr id="category_row_{{$data->id}}">
                                     <th scope="row">{{$i++}}</th>
-                                    <td>{{$data->category_name}}</td>
+                                    <td>{{$data->coupon_title}}</td>
+                                    <td>{{$data->coupon_code}}</td>
+                                    <td>{{$data->start_date}}</td>
+                                    <td>{{$data->end_date}}</td>
+                                    <td>{{$data->amount_percentage}}</td>
+                                    <td><button type="button" class="{{$class}}">{{$status}}</button></td>
                                     <td>
-                                        <img src="{{asset('backend/uploads/category')}}/{{$data->category_image}}" style="height: 59px; width: 80px;" alt="{{$data->category_image}}">
-                                    </td>
-                                    <td>
-                                        <div id="status_button_div_{{$data->id}}">
-                                            <button type="button" id="status_button_{{$data->id}}" class="{{$class}}" onclick="changeStatus({{$data->id}});">{{$status}}</button>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Action
+                                            </button>
+                                            <div class="dropdown-menu" style="">
+                                                <a class="dropdown-item" href="#">Action</a>
+                                                <a class="dropdown-item" href="#">Another action</a>
+                                                <a class="dropdown-item" href="#">Something else here</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#">Separated link</a>
+                                            </div>
                                         </div>
                                         <button class="btn btn-primary" type="button" id="loading_btn_{{$data->id}}" disabled="" style="display: none;">
                                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -144,7 +163,7 @@
 
     function delete_cat(id) {
         var delete_loading = "delete_loading_" + id;
-        var category_row = "category_row_"+id;
+        var category_row = "category_row_" + id;
         document.getElementById(delete_loading).style.display = "block";
 
         let data = {
@@ -168,7 +187,7 @@
                 document.getElementById(delete_loading).style.display = "none";
                 document.getElementById("message_div").innerHTML = msgDiv;
                 document.getElementById(category_row).remove();
-                
+
                 setTimeout(function() {
                     $('.alert').fadeOut('slow');
                 }, 1500);
