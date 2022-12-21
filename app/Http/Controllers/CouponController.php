@@ -20,8 +20,6 @@ class CouponController extends Controller
 
     function store_coupon(Request $request)
     {
-        // return $request;
-        // die;
         $store_coupon = new Coupon();
         $store_coupon->coupon_title = $request->coupon_title;
         $store_coupon->coupon_code = $request->coupon_code;
@@ -36,6 +34,19 @@ class CouponController extends Controller
         $store_coupon->status = 'active';
         $store_coupon->save();
 
-        return $store_coupon;
+        return redirect('coupon/coupon_list');
+    }
+
+    function update_status(Request $request)
+    {
+        $update_status = Coupon::find($request->coupon_id);
+        $update_status->status = $request->status;
+        $update_status->save();
+
+        if($update_status){
+            return response()->json(["status" => true, 'message' => 'Status Updated Successfully', 'status_text' => $update_status->status], 200);
+        }else{
+            return response()->json(["status" => false, 'message' => 'Something went Wrong', 'status_text' => ''], 500);
+        }
     }
 }

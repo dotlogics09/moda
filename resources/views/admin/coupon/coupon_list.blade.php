@@ -79,18 +79,11 @@
                                     <td>{{$data->amount_percentage}}</td>
                                     <td><button type="button" class="{{$class}}">{{$status}}</button></td>
                                     <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Action
-                                            </button>
-                                            <div class="dropdown-menu" style="">
-                                                <a class="dropdown-item" href="#">Action</a>
-                                                <a class="dropdown-item" href="#">Another action</a>
-                                                <a class="dropdown-item" href="#">Something else here</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">Separated link</a>
-                                            </div>
-                                        </div>
+                                        <select name="" id="status_dropdown" class="form-select" onchange="status_dropdown({{$data->id}});">
+                                            <option value="active">Active</option>
+                                            <option value="inactive">In Active</option>
+                                            <option value="expired">Expired</option>
+                                        </select>
                                         <button class="btn btn-primary" type="button" id="loading_btn_{{$data->id}}" disabled="" style="display: none;">
                                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                             Loading...
@@ -117,6 +110,50 @@
 </div>
 
 <script>
+    function status_dropdown(id){
+        status_value = document.getElementById("status_dropdown").value;
+        coupon_id = id;
+        var loading_btn = "loading_btn_" + id;
+
+        var msgDiv = '';
+        let data = {
+            _token: '{{ csrf_token() }}',
+            _method: 'POST',
+            status: status_value,
+            coupon_id: coupon_id,
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "{{ url('coupon/update_status') }}",
+            data: data,
+            success: function(result) {
+                console.log(result);
+                // if (result.status == true) {
+                //     msgDiv = '<div class="alert alert-success" role="alert">' + result.message + '</div>';
+                // } else {
+                //     msgDiv = '<div class="alert alert-danger" role="alert">' + result.message + '</div>';
+                // }
+
+                // if (result.status_text == "Active") {
+                //     var btn_class = "btn btn-outline-success";
+                // } else {
+                //     var btn_class = "btn btn-outline-danger";
+                // }
+
+                // new_status_btn = '<button type="button" id="status_button_' + id + '" class="' + btn_class + '" onclick="changeStatus(' + id + ');">' + result.status_text + '</button>';
+
+                // document.getElementById("message_div").innerHTML = msgDiv;
+                // document.getElementById(status_button_div).innerHTML = new_status_btn;
+                // document.getElementById(loading_btn).style.display = "none";
+
+                // setTimeout(function() {
+                //     $('.alert').fadeOut('slow');
+                // }, 1500);
+            }
+        });
+    }
+
     function changeStatus(id) {
         var msgDiv = '';
         var status_button = "status_button_" + id;
