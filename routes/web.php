@@ -90,5 +90,8 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('coupon/coupon_list', 'CouponController@index');
     Route::post('coupon/store_coupon', 'CouponController@store_coupon');
     Route::post('coupon/update_status', 'CouponController@update_status');
+    Route::get('coupon/edit_coupon/{id}', 'CouponController@edit');
+    Route::post('coupon/update_coupon/{id}', 'CouponController@update_coupon');
+    Route::post('coupon/delete_coupon', 'CouponController@delete_coupon');
 });
 // backend routes end

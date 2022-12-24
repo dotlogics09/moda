@@ -70,29 +70,37 @@
                                 }
                                 }
                                 @endphp
-                                <tr id="category_row_{{$data->id}}">
+                                <tr id="coupon_row_{{$data->id}}">
                                     <th scope="row">{{$i++}}</th>
                                     <td>{{$data->coupon_title}}</td>
                                     <td>{{$data->coupon_code}}</td>
                                     <td>{{$data->start_date}}</td>
                                     <td>{{$data->end_date}}</td>
                                     <td>{{$data->amount_percentage}}</td>
-                                    <td><button type="button" class="{{$class}}">{{$status}}</button></td>
                                     <td>
-                                        <select name="" id="status_dropdown" class="form-select" onchange="status_dropdown({{$data->id}});">
-                                            <option value="active">Active</option>
-                                            <option value="inactive">In Active</option>
-                                            <option value="expired">Expired</option>
-                                        </select>
-                                        <button class="btn btn-primary" type="button" id="loading_btn_{{$data->id}}" disabled="" style="display: none;">
-                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                            Loading...
-                                        </button>
+                                        <div id="status_button_div_{{$data->id}}">
+                                            <button type="button" id="status_button_{{$data->id}}" class="{{$class}}">{{$status}}</button>
+                                        </div>
+                                        <div class="spinner-border text-secondary" id="status_btn_ldng_{{$data->id}}" style="display: none;" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
                                     </td>
                                     <td>
-                                        <a href="{{url('category/edit_category')}}/{{$data->id}}"><i class="ti-pencil edit_icon"></i></a>
+                                        <div id="drop_status_hide{{$data->id}}">
+                                            <select name="" id="status_dropdown" class="form-select" onchange="status_dropdown({{$data->id}});">
+                                                <option value="active" {{$data->status == 'active' ? 'selected' : ''}}>Active</option>
+                                                <option value="inactive" {{$data->status == 'inactive' ? 'selected' : ''}}>In Active</option>
+                                                <option value="expired" {{$data->status == 'expired' ? 'selected' : ''}}>Expired</option>
+                                            </select>
+                                        </div>
+                                        <div class="spinner-grow spinner-grow-sm" id="loading_btn_{{$data->id}}" style="display: none;" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="{{url('coupon/edit_coupon')}}/{{$data->id}}"><i class="ti-pencil edit_icon"></i></a>
                                         &nbsp;&nbsp;&nbsp;
-                                        <i class="ti-trash edit_icon" onclick="delete_cat({{$data->id}})"></i>
+                                        <i class="ti-trash edit_icon" onclick="delete_coupon({{$data->id}})"></i>
                                         <div class="spinner-border spinner-border-sm" id="delete_loading_{{$data->id}}" style="display: none;" role="status">
                                             <span class="visually-hidden">Loading...</span>
                                         </div>
@@ -110,11 +118,24 @@
 </div>
 
 <script>
-    function status_dropdown(id){
+    function status_dropdown(id) {
         status_value = document.getElementById("status_dropdown").value;
         coupon_id = id;
-        var loading_btn = "loading_btn_" + id;
 
+        document.getElementById('status_dropdown').onchange = function() {
+            alert(this.value);
+        }
+
+        // alert(option.value);
+        console.log(status_value);
+        console.log(coupon_id);
+        return false;
+        var status_button = "status_button_" + id;
+        var status_button_div = "status_button_div_" + id;
+        var loading_btn = "loading_btn_" + id;
+        var status_btn_ldng = "status_btn_ldng_" + id;
+        var drop_status_hide = "drop_status_hide" + id;
+        
         var msgDiv = '';
         let data = {
             _token: '{{ csrf_token() }}',
@@ -123,33 +144,40 @@
             coupon_id: coupon_id,
         }
 
+        document.getElementById(status_button).style.display = "none";
+        document.getElementById(loading_btn).style.display = "block";
+        document.getElementById(status_btn_ldng).style.display = "block";
+        document.getElementById(drop_status_hide).style.display = "none";
+
         $.ajax({
             type: "POST",
             url: "{{ url('coupon/update_status') }}",
             data: data,
             success: function(result) {
                 console.log(result);
-                // if (result.status == true) {
-                //     msgDiv = '<div class="alert alert-success" role="alert">' + result.message + '</div>';
-                // } else {
-                //     msgDiv = '<div class="alert alert-danger" role="alert">' + result.message + '</div>';
-                // }
+                if (result.status == true) {
+                    msgDiv = '<div class="alert alert-success" role="alert">' + result.message + '</div>';
+                } else {
+                    msgDiv = '<div class="alert alert-danger" role="alert">' + result.message + '</div>';
+                }
 
-                // if (result.status_text == "Active") {
-                //     var btn_class = "btn btn-outline-success";
-                // } else {
-                //     var btn_class = "btn btn-outline-danger";
-                // }
+                if (result.status_text == "active") {
+                    var btn_class = "btn btn-outline-success text-capitalize";
+                } else {
+                    var btn_class = "btn btn-outline-danger text-capitalize";
+                }
 
-                // new_status_btn = '<button type="button" id="status_button_' + id + '" class="' + btn_class + '" onclick="changeStatus(' + id + ');">' + result.status_text + '</button>';
+                new_status_btn = '<button type="button" id="status_button_' + id + '" class="' + btn_class + '">' + result.status_text + '</button>';
 
-                // document.getElementById("message_div").innerHTML = msgDiv;
-                // document.getElementById(status_button_div).innerHTML = new_status_btn;
-                // document.getElementById(loading_btn).style.display = "none";
+                document.getElementById("message_div").innerHTML = msgDiv;
+                document.getElementById(status_button_div).innerHTML = new_status_btn;
+                document.getElementById(loading_btn).style.display = "none";
+                document.getElementById(status_btn_ldng).style.display = "none";
+                document.getElementById(drop_status_hide).style.display = "block";
 
-                // setTimeout(function() {
-                //     $('.alert').fadeOut('slow');
-                // }, 1500);
+                setTimeout(function() {
+                    $('.alert').fadeOut('slow');
+                }, 1500);
             }
         });
     }
@@ -198,23 +226,22 @@
         });
     }
 
-    function delete_cat(id) {
+    function delete_coupon(id) {
         var delete_loading = "delete_loading_" + id;
-        var category_row = "category_row_" + id;
+        var coupon_row = "coupon_row_" + id;
         document.getElementById(delete_loading).style.display = "block";
 
         let data = {
             _token: '{{ csrf_token() }}',
             _method: 'POST',
-            category_id: id,
+            coupon_id: id,
         }
 
         $.ajax({
             type: "POST",
-            url: "{{ url('category/delete_category') }}",
+            url: "{{ url('coupon/delete_coupon') }}",
             data: data,
             success: function(result) {
-                console.log(result);
                 if (result.status == true) {
                     msgDiv = '<div class="alert alert-success" role="alert">' + result.message + '</div>';
                 } else {
@@ -223,7 +250,7 @@
 
                 document.getElementById(delete_loading).style.display = "none";
                 document.getElementById("message_div").innerHTML = msgDiv;
-                document.getElementById(category_row).remove();
+                document.getElementById(coupon_row).remove();
 
                 setTimeout(function() {
                     $('.alert').fadeOut('slow');
